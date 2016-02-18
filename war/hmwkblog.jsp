@@ -120,11 +120,11 @@
            pageContext.setAttribute("post_user", post.getUser());
            pageContext.setAttribute("post_title", post.getTitle());
            pageContext.setAttribute("post_content", post.getContent());
+           pageContext.setAttribute("post_date", post.getDate());
 %>
            <div class="col-md-12">
                <div class="box-startup" >
-                   <h2> ${fn:escapeXml(post_title)} - ${fn:escapeXml(post_user.nickname)}</h2>
-                   <div class="row">
+                   <h2> ${fn:escapeXml(post_title)} - ${fn:escapeXml(post_user.nickname)}<span class="pull-right"><i style="color:#666">${fn:escapeXml(post_date)}</i></span></h2>
                      <div class="col-md-12">
                        <p>
                        ${fn:escapeXml(post_content)}

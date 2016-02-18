@@ -33,6 +33,10 @@ public class BlogPost implements Comparable<BlogPost>{
     public String getContent() {
     	return content;
     }
+   
+    public String getDate(){
+    	return date.toString();
+    }
     
 	@Override
 	public int compareTo(BlogPost other) {
