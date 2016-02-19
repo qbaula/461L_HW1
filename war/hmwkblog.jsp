@@ -95,8 +95,19 @@
                         <div style="text-align:center;font-size:16px">
                         	Show: 
                         	<form name="show-input" action="hmwkblog.jsp" method="get">
-                        		<input type="radio" name="showcount" value="recent"> Recents
-								<input type="radio" name="showcount" value="all"> All 
+                        	<%
+                        	String res;
+                       		res = request.getParameter("showcount");
+                       		String recentChecked = "";
+                       		String allChecked = "";
+                       		if (res == null || res.equals("recent")) {
+                       			recentChecked = "checked";
+                       		}else{ 
+                       			allChecked = "checked";
+                       		}
+                        	%>
+                        		<input type="radio" name="showcount" value="recent" <%= recentChecked %>> Recents
+								<input type="radio" name="showcount" value="all"  <%= allChecked %>> All 
 								<input type="submit" value="Apply" class="btn btn-primary btn-xs">
 							</form>
                         </div>
@@ -108,11 +119,11 @@
 	
 	if (posts.isEmpty()) {
 %>
-   		<p>No blog posts.</p>
+   		<p style="">No blog posts.</p>
 <%
     } else {
-    	String res;
-   		res = request.getParameter("showcount");
+    	/* String res;
+   		res = request.getParameter("showcount"); */
    		if (res == null) {
    			res = "recent";
    		}
