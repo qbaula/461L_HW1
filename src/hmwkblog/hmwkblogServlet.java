@@ -1,6 +1,8 @@
 package hmwkblog;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import javax.servlet.http.*;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -18,6 +20,7 @@ public class hmwkblogServlet extends HttpServlet {
 		ObjectifyService.register(BlogPost.class);
 	}
 	
+	private static final Logger _logger = Logger.getLogger(hmwkblogServlet.class.getName());
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     throws IOException {
@@ -25,8 +28,11 @@ public class hmwkblogServlet extends HttpServlet {
         User user = userService.getCurrentUser();
         String title = req.getParameter("title");
         String content = req.getParameter("content");
-        BlogPost greeting = new BlogPost(user, title, content);
-        ofy().save().entity(greeting).now();
-        resp.sendRedirect("/testObj.jsp");
+        BlogPost post = new BlogPost(user, title, content);
+        ofy().save().entity(post).now();
+        
+        _logger.info("Successfully added blog post");
+        resp.sendRedirect("/hmwkblog.jsp");
     }
+	
 }

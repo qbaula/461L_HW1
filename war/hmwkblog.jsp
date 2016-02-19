@@ -7,6 +7,7 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="com.googlecode.objectify.*" %>
 <%@ page import="hmwkblog.BlogPost" %>
+<%@ page import="hmwkblog.SubscribeServlet" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
@@ -33,17 +34,22 @@
 %>
   <div id="top" class="container">
         <div class="row" style="margin-top:15px">
-            <div class="col-md-6 pull-right" style="text-align:right">
+            <div class="col-md-10 pull-right" style="text-align:right">
        		<% if(user == null){ %>
                 <a class="signin-link" href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign In</a>
             <% } else { %>
-            	<span class="signin-link">Welcome, ${fn:escapeXml(user.nickname)}. <a class="signin-link" href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign Out</a></span>
+            	<span class="signin-link">
+            		Welcome, ${fn:escapeXml(user.nickname)}. 
+            		<a class="signin-link" href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign Out</a>&nbsp;&nbsp;
+            		<% if(SubscribeServlet.isSubscribed()){ %><a class="" href="/subscribe?subscribe=true">Subscribe</a><% }else{ %>
+            		<a class="" href="/subscribe?subscribe=false">Unsubscribe</a><% } %>
+            	</span>
             <% } %>
             </div>
         </div>
           <div class="row">
             <div class="col-md-12 logo">
-                <div class="content-logo"><img src="images/sriram_profile2.png" alt="" /></div>
+                <div class="content-logo"><img src="images/ut.png" alt="" /></div>
             </div>
             <div class="col-md-12">
                <div><h1 style="text-align:center">Most Amazing Blog</h1></div>
@@ -58,14 +64,12 @@
 <%-- 	<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p> --%>
 	 	<div class="col-md-10 col-md-offset-1">
         	<div class="box-startup" style="height:300px">
-            	<h2><a href="http://accordionhealth.com">Submit a New Post</a></h2>
+            	<h2>Submit a New Post</h2>
                  <form action="/hmwkblog" method="post">
 	                 <div class="row">
 	                   <div class="col-md-12">
-							<input name="title" placeholder="Post Title:" style="width:100%;margin:10px 0">
-					        <textarea name="content" style="height:100px;width:100%;border-color:#d0d0d0">
-					                            
-					        </textarea>
+							<input name="title" placeholder="Post Title:" style="width:100%;margin:10px 0" required>
+					        <textarea name="content" style="height:100px;width:100%;border-color:#d0d0d0" required></textarea>
 	                   </div>
 	                 </div>
 	                 <div class="row" style="margin-top:10px">
@@ -122,26 +126,26 @@
            pageContext.setAttribute("post_content", post.getContent());
            pageContext.setAttribute("post_date", post.getDate());
 %>
-           <div class="col-md-12">
-               <div class="box-startup" >
-                   <h2> ${fn:escapeXml(post_title)} - ${fn:escapeXml(post_user.nickname)}<span class="pull-right"><i style="color:#666">${fn:escapeXml(post_date)}</i></span></h2>
-                     <div class="col-md-12">
-                       <p>
-                       ${fn:escapeXml(post_content)}
-                       </p>
-                     </div>
-                   </div>
-               </div>
-           </div>
+			           <div class="col-md-12">
+			               <div class="box-startup" >
+			                   <h2> ${fn:escapeXml(post_title)} - ${fn:escapeXml(post_user.nickname)}<span class="pull-right"><i style="color:#666">${fn:escapeXml(post_date)}</i></span></h2>
+			                     <div class="col-md-12">
+			                       <p>
+			                       ${fn:escapeXml(post_content)}
+			                       </p>
+			                     </div>
+			                </div>
+			           </div>
+			           
 		
 <%
         }
     }
 %>
+					</div>
 	               </div>
                 </div>
             </div>
-        </div>
     </section>
   </body>
 </html>
